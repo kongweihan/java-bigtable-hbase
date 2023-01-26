@@ -26,8 +26,11 @@ import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_BU
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_BULK_MAX_REQUEST_SIZE_BYTES;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_BULK_MAX_ROW_KEY_COUNT;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_BULK_THROTTLE_TARGET_MS_DEFAULT;
+import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT;
+import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT_DEFAULT;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_DATA_CHANNEL_COUNT_KEY;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_EMULATOR_HOST_KEY;
+import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_CPU_BASED_THROTTLING_ENABLED;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_HOST_KEY;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_MUTATE_RPC_ATTEMPT_TIMEOUT_MS_KEY;
 import static com.google.cloud.bigtable.hbase.BigtableOptionsFactory.BIGTABLE_MUTATE_RPC_TIMEOUT_MS_KEY;
@@ -636,6 +639,15 @@ public class BigtableHBaseVeneerSettings extends BigtableHBaseSettings {
               BIGTABLE_BULK_THROTTLE_TARGET_MS_DEFAULT);
 
       builder.enableLatencyBasedThrottling(latencyMs);
+    }
+
+    if (Boolean.parseBoolean(configuration.get(BIGTABLE_CPU_BASED_THROTTLING_ENABLED))) {
+      int targetCpuPercent =
+          configuration.getInt(
+              BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT,
+              BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT_DEFAULT);
+
+      builder.enableCpuBasedThrottling(targetCpuPercent);
     }
   }
 

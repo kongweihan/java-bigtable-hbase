@@ -75,6 +75,22 @@ public class TemplateUtils {
         BigtableOptionsFactory.BIGTABLE_BUFFERED_MUTATOR_THROTTLING_THRESHOLD_MILLIS,
         ValueProvider.NestedValueProvider.of(opts.getMutationThrottleLatencyMs(), String::valueOf));
 
+    // builder.withConfiguration(BigtableOptionsFactory.BIGTABLE_MUTATE_RPC_ATTEMPT_TIMEOUT_MS_KEY, "300000");
+    // builder.withConfiguration(BigtableOptionsFactory.BIGTABLE_MUTATE_RPC_TIMEOUT_MS_KEY, "3600000");
+
+    ValueProvider enableCpuThrottling =
+        ValueProvider.NestedValueProvider.of(
+            opts.getCpuThrottlingPercent(),
+            (Integer targetCpuPercent) -> String.valueOf(targetCpuPercent > 0));
+
+    builder.withConfiguration(BigtableOptionsFactory.BIGTABLE_CPU_BASED_THROTTLING_ENABLED,
+        enableCpuThrottling);
+    builder.withConfiguration(BigtableOptionsFactory.BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT,
+        ValueProvider.NestedValueProvider.of(opts.getCpuThrottlingPercent(), String::valueOf));
+
+    builder.withConfiguration(BigtableOptionsFactory.BIGTABLE_BULK_MAX_REQUEST_SIZE_BYTES, "100000");
+
+
     return builder.build();
   }
 

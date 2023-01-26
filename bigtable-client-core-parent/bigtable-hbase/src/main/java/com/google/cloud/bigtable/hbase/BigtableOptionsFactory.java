@@ -209,6 +209,13 @@ public class BigtableOptionsFactory {
    */
   public static final int BIGTABLE_BULK_THROTTLE_TARGET_MS_DEFAULT = 100;
 
+  public static final String BIGTABLE_CPU_BASED_THROTTLING_ENABLED = "google.bigtable.cpu.based.throttling.enabled";
+
+  public static final String BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT =
+      "google.bigtable.cpu.based.throttling.target.percent";
+
+  public static final int BIGTABLE_CPU_BASED_THROTTLING_TARGET_PERCENT_DEFAULT = 70;
+
   /** Tweak the throttling */
   public static final String BIGTABLE_BUFFERED_MUTATOR_THROTTLING_THRESHOLD_MILLIS =
       "google.bigtable.buffered.mutator.throttling.threshold.ms";

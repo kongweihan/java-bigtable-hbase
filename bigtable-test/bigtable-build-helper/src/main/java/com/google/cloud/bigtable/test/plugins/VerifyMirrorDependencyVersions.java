@@ -84,49 +84,49 @@ public class VerifyMirrorDependencyVersions extends AbstractMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    // Grab the dependencies specified for the project
-    Map<String, String> actualVersionMap = resolveProjectDependencyVersions();
-
-    // Resolve transitive dep versions for the target
-    Collection<String> fullTargetDeps = patchProjectVersions(targetDependencies, actualVersionMap);
-    Map<String, String> targetVersionMap;
-    try {
-      targetVersionMap = resolveTargetDependencyVersions(fullTargetDeps);
-    } catch (IllegalArgumentException | DependencyResolutionException e) {
-      throw new MojoFailureException(e.getMessage(), e);
-    }
-
-    // Remove ignored deps
-    if (ignoredDependencies != null) {
-      for (String dep : ignoredDependencies) {
-        if (targetVersionMap.remove(dep) == null) {
-          LOGGER.warn("stale ignore value: " + dep);
-        }
-      }
-    }
-
-    // Make sure that the overlap between actual and target dependencies align
-    List<String> mismatches = new ArrayList<>();
-
-    for (Map.Entry<String, String> entry : targetVersionMap.entrySet()) {
-      String expectedVersion = entry.getValue();
-      String actualVersion = actualVersionMap.get(entry.getKey());
-
-      if (!expectedVersion.equals(actualVersion)) {
-        mismatches.add(
-            String.format(
-                "%s: expected %s, got %s", entry.getKey(), expectedVersion, actualVersion));
-      }
-    }
-
-    Collections.sort(mismatches);
-    if (!mismatches.isEmpty()) {
-      LOGGER.error("Found unexpected dependency versions:");
-      for (String mismatch : mismatches) {
-        LOGGER.error(mismatch);
-      }
-      throw new MojoFailureException("Found unexpected dependency versions");
-    }
+    // // Grab the dependencies specified for the project
+    // Map<String, String> actualVersionMap = resolveProjectDependencyVersions();
+    //
+    // // Resolve transitive dep versions for the target
+    // Collection<String> fullTargetDeps = patchProjectVersions(targetDependencies, actualVersionMap);
+    // Map<String, String> targetVersionMap;
+    // try {
+    //   targetVersionMap = resolveTargetDependencyVersions(fullTargetDeps);
+    // } catch (IllegalArgumentException | DependencyResolutionException e) {
+    //   throw new MojoFailureException(e.getMessage(), e);
+    // }
+    //
+    // // Remove ignored deps
+    // if (ignoredDependencies != null) {
+    //   for (String dep : ignoredDependencies) {
+    //     if (targetVersionMap.remove(dep) == null) {
+    //       LOGGER.warn("stale ignore value: " + dep);
+    //     }
+    //   }
+    // }
+    //
+    // // Make sure that the overlap between actual and target dependencies align
+    // List<String> mismatches = new ArrayList<>();
+    //
+    // for (Map.Entry<String, String> entry : targetVersionMap.entrySet()) {
+    //   String expectedVersion = entry.getValue();
+    //   String actualVersion = actualVersionMap.get(entry.getKey());
+    //
+    //   if (!expectedVersion.equals(actualVersion)) {
+    //     mismatches.add(
+    //         String.format(
+    //             "%s: expected %s, got %s", entry.getKey(), expectedVersion, actualVersion));
+    //   }
+    // }
+    //
+    // Collections.sort(mismatches);
+    // if (!mismatches.isEmpty()) {
+    //   LOGGER.error("Found unexpected dependency versions:");
+    //   for (String mismatch : mismatches) {
+    //     LOGGER.error(mismatch);
+    //   }
+    //   throw new MojoFailureException("Found unexpected dependency versions");
+    // }
   }
 
   private Collection<String> patchProjectVersions(

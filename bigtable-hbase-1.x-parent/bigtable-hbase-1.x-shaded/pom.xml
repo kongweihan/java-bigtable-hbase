@@ -69,6 +69,12 @@ limitations under the License.
       <groupId>${project.groupId}</groupId>
       <artifactId>bigtable-hbase-1.x</artifactId>
       <version>2.6.6-SNAPSHOT</version> <!-- {x-version-update:bigtable-client-parent:current} -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.auto.value</groupId>
+          <artifactId>auto-value</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.cloud.bigtable</groupId>
@@ -94,10 +100,22 @@ limitations under the License.
     <dependency>
       <groupId>io.opencensus</groupId>
       <artifactId>opencensus-exporter-stats-stackdriver</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.auto.value</groupId>
+          <artifactId>auto-value</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.opencensus</groupId>
       <artifactId>opencensus-exporter-trace-stackdriver</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.auto.value</groupId>
+          <artifactId>auto-value</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>io.opencensus</groupId>
@@ -242,6 +260,8 @@ limitations under the License.
                   <exclude>javax.annotation:*</exclude>
                   <exclude>org.checkerframework:*</exclude>
                   <exclude>com.google.code.findbugs:jsr305</exclude>
+                  <exclude>org.slf4j:slf4j-api</exclude>
+                  <exclude>org.slf4j:slf4j-simple</exclude>
                 </excludes>
               </artifactSet>
               <relocations>

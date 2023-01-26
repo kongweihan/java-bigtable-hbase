@@ -49,9 +49,10 @@ class SharedDataClientWrapperFactory {
 
   synchronized DataClientWrapper createDataClient(BigtableHBaseVeneerSettings settings)
       throws IOException {
-    Preconditions.checkArgument(
-        !settings.getDataSettings().isRefreshingChannel(),
-        "Channel refreshing is not compatible with cached channel pools");
+    // This check should be removed after https://github.com/googleapis/java-bigtable-hbase/pull/3921
+    // Preconditions.checkArgument(
+    //     !settings.getDataSettings().isRefreshingChannel(),
+    //     "Channel refreshing is not compatible with cached channel pools");
 
     Key key = Key.createFromSettings(settings.getDataSettings());
 
@@ -76,6 +77,7 @@ class SharedDataClientWrapperFactory {
       Builder builder = settings.getDataSettings().toBuilder();
       builder
           .stubSettings()
+          .setRefreshingChannel(false)  // TODO: remove after https://github.com/googleapis/java-bigtable-hbase/pull/3921 is submitted
           .setTransportChannelProvider(
               FixedTransportChannelProvider.create(sharedCtx.getTransportChannel()))
           .setCredentialsProvider(FixedCredentialsProvider.create(sharedCtx.getCredentials()))

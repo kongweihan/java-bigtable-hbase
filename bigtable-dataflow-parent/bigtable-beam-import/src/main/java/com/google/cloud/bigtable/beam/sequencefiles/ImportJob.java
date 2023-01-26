@@ -126,6 +126,14 @@ public class ImportJob {
     @SuppressWarnings("unused")
     void setMutationThrottleLatencyMs(ValueProvider<Integer> throttleMs);
 
+    @Description(
+        "Optional set CPU based throttling target (enables the feature). Value between 10 and 90.")
+    @Default.Integer(0)
+    ValueProvider<Integer> getCpuThrottlingPercent();
+
+    @SuppressWarnings("unused")
+    void setCpuThrottlingPercent(ValueProvider<Integer> targetCpuPercent);
+
     // When creating a template, this flag must be set to false.
     @Description("Wait for pipeline to finish.")
     @Default.Boolean(true)
